@@ -41,9 +41,10 @@ try:
         help_time = request.json['time']
         help_device_id = request.json['device_id']
         with db.cursor() as cursor:
-            sql = 'INSERT INTO helpdatas (location, time, device_id) VALUES (%d, %s, %s)'
+            sql = 'INSERT INTO helpdatas (location, time, device_id) VALUES (%s, %s, %s)'
             cursor.execute(sql, (help_location, help_time, help_device_id))
         db.commit()
+        return 'SUCCEED'
 
     @app.route('/read')
     def hosting():
