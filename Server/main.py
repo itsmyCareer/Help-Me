@@ -2,6 +2,9 @@ from flask import Flask, jsonify, request
 import pymysql
 import pymysql.cursors
 
+class ItemFounded(Exception):
+    pass
+
 db = pymysql.connect(host='localhost', port=3306, user='itsmysurport', passwd='Wordp@ss5479', db='testdb', charset='utf8mb4')
 app = Flask(__name__)
 
@@ -14,19 +17,23 @@ try:
             sql = 'SELECT * FROM users'
             cursor.execute(sql)
             result = cursor.fetchall()
-
+        try:
             for i in range(0, len(result)):
-                if result[i][0] == a:
-                    break
-        
-        with db.cursor() as cursor:
-            sql = 'INSERT INTO users (username) VALUES (%s)'
-            cursor.execute(sql, (a))
-        db.commit()
-        print(cursor.lastrowid)
-        # 1 (last insert id)
-        
-        return 'success'
+                print(result[i][1], a)
+                if result[i][1] == a:
+                    raise ItemFounded
+
+            with db.cursor() as cursor:
+                sql = 'INSERT INTO users (username) VALUES (%s)'
+                cursor.execute(sql, (a))
+            db.commit()
+            print(cursor.lastrowid)
+            # 1 (last insert id)
+            
+            return 'success'
+        except:
+            print('Hello.')
+            return 'success'
 
     if __name__ == '__main__':
         app.run(debug=True)
