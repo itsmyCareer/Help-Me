@@ -1,4 +1,5 @@
 from helpme_gui import *
+import requests, time
 
 def ipInit(self):
     self.groupEdit = [self.ipEdit, self.ipEdit_2, self.ipEdit_3, self.ipEdit_4, self.networkEdit]
@@ -11,6 +12,15 @@ def ipInit(self):
         self.groupEdit[i].textEdited.connect(self.ipAutoComplete)
     self.domainEdit.setText("http://127.0.0.1:5000")
     self.domainButton.clicked.connect(self.ipInit)
+    self.connectButton.clicked.connect(self.ipConnect)
+
+def ipConnect(self):
+    self.url = self.domainEdit.text()
+    self.username = self.userEdit.text()
+    data = {'username': self.username}
+    requests.post(self.url, json = data)
+    print('Complete')
+    self.stackedWidget.setCurrentIndex(1)
 
 def ipAutoComplete(self):
     textArray = 'http://'
@@ -24,6 +34,7 @@ def ipAutoComplete(self):
 
 Ui_MainWindow.ipInit = ipInit
 Ui_MainWindow.ipAutoComplete = ipAutoComplete
+Ui_MainWindow.ipConnect = ipConnect
 
 if __name__ == "__main__":
     import sys
