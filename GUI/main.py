@@ -1,5 +1,7 @@
 from helpme_gui import *
 import requests, time
+from PyQt5 import QtCore, QtGui, QtWidgets
+import threading
 
 def ipInit(self):
     self.groupEdit = [self.ipEdit, self.ipEdit_2, self.ipEdit_3, self.ipEdit_4, self.networkEdit]
@@ -21,6 +23,10 @@ def ipConnect(self):
     requests.post(self.url, json = data)
     print('Complete')
     self.stackedWidget.setCurrentIndex(1)
+    t = threading.Thread(target=self.refresh, name="[Daemon]", args=())
+    t.setDaemon(True)
+    t.start()
+
 
 def ipAutoComplete(self):
     textArray = 'http://'
@@ -32,9 +38,19 @@ def ipAutoComplete(self):
             textArray += ':'
     self.domainEdit.setText(textArray)
 
+def refresh(self):
+    while True:
+        linker = self.url + '/read'
+        req = requests.get(linker)
+        html = req.text
+        html=html.split(':')
+        print(html)
+        time.sleep(5)
+
 Ui_MainWindow.ipInit = ipInit
 Ui_MainWindow.ipAutoComplete = ipAutoComplete
 Ui_MainWindow.ipConnect = ipConnect
+Ui_MainWindow.refresh = refresh
 
 if __name__ == "__main__":
     import sys
