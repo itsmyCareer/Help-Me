@@ -6,7 +6,6 @@ class ItemFounded(Exception):
     pass
 
 db = pymysql.connect(host='localhost', port=3306, user='itsmysurport', passwd='Wordp@ss5479', db='testdb', charset='utf8mb4')
-db2 = pymysql.connect(host='localhost', port=3306, user='itsmysurport', passwd='Wordp@ss5479', db='helpdatas', charset='utf8mb4')
 app = Flask(__name__)
 
 try:
@@ -41,15 +40,15 @@ try:
         help_location = request.json['location']
         help_time = request.json['time']
         help_device_id = request.json['device_id']
-        with db2.cursor() as cursor:
+        with db.cursor() as cursor:
             sql = 'INSERT INTO helpdatas (location, time, device_id) VALUES (%d, %s, %s)'
             cursor.execute(sql, (help_location, help_time, help_device_id))
-        db2.commit()
+        db.commit()
 
     @app.route('/read')
     def hosting():
         a = ''
-        with db2.cursor() as cursor:
+        with db.cursor() as cursor:
             sql = 'SELECT * FROM helpdatas'
             cursor.execute(sql)
             result = cursor.fetchall()
@@ -63,4 +62,3 @@ try:
 
 finally:
     db.close()
-    db2.close()
