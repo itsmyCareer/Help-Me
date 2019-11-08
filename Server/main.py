@@ -35,6 +35,18 @@ try:
             print('Hello.')
             return 'success'
 
+    @app.route('/read')
+    def hosting():
+        print('START')
+        with db.cursor() as cursor:
+            print('START2')
+            sql = 'SELECT * FROM users'
+            cursor.execute(sql)
+            result = cursor.fetchall()
+            print(result)
+            a = str(result[-1][0]) + ':' + str(result[-1][1])
+        return a
+
     if __name__ == '__main__':
         app.run(debug=True)
 
