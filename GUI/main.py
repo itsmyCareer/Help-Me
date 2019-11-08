@@ -1,7 +1,7 @@
 from helpme_gui import *
 import requests, time
 from PyQt5 import QtCore, QtGui, QtWidgets
-import threading
+import threading    #ADDED
 
 def ipInit(self):
     self.groupEdit = [self.ipEdit, self.ipEdit_2, self.ipEdit_3, self.ipEdit_4, self.networkEdit]
