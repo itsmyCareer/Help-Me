@@ -39,12 +39,31 @@ def ipAutoComplete(self):
     self.domainEdit.setText(textArray)
 
 def refresh(self):
+    before = []
+    linker = self.url + '/read'
+    req = requests.get(linker)
+    html = req.text
+    html=html.split(':')
+    print(html)
+    before = html[1:-1]
+    string = ''
+    beforeString = ''
+    for i in before:
+        beforeString += i
+    self.textLabel.setText('%s에서 %s가 요청하였습니다!' %(before[0], before[-1]))
+    time.sleep(5)
     while True:
         linker = self.url + '/read'
         req = requests.get(linker)
         html = req.text
         html=html.split(':')
         print(html)
+        before = html[1:-1]
+        for i in before:
+            string += i
+        if beforeString != string:
+            self.textLabel.setText('%s에서 %s가 요청하였습니다!' %(before[0], before[-1]))
+            beforeString = string
         time.sleep(5)
 
 Ui_MainWindow.ipInit = ipInit
