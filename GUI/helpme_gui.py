@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file '.\GUI\helpme_gui.ui'
+# Form implementation generated from reading ui file '.\helpme_gui.ui'
 #
 # Created by: PyQt5 UI code generator 5.13.0
 #
@@ -127,10 +127,18 @@ class Ui_MainWindow(object):
         self.stackedWidget.addWidget(self.page)
         self.page_2 = QtWidgets.QWidget()
         self.page_2.setObjectName("page_2")
+        self.textLabel = QtWidgets.QLabel(self.page_2)
+        self.textLabel.setGeometry(QtCore.QRect(570, 270, 421, 121))
+        font = QtGui.QFont()
+        font.setFamily("Arial")
+        self.textLabel.setFont(font)
+        self.textLabel.setText("")
+        self.textLabel.setObjectName("textLabel")
         self.stackedWidget.addWidget(self.page_2)
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
+        self.stackedWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
